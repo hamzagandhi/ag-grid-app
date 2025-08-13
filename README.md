@@ -35,7 +35,8 @@ src/
 
 ### 1. Clone the repository
 git clone https://github.com/hamzagandhi/ag-grid-app.git
-cd YOUR_REPO_NAME
+
+cd ag-grid-app
 
 ### 2. Install dependencies
 npm install
