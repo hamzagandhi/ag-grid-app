@@ -1,4 +1,3 @@
-import React from "react";
 import UsersGrid from "./usersGrid/UsersGrid";
 import { createEntries } from "./utils/createEntries"; 
 function App() {
