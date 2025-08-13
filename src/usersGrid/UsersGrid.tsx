@@ -3,7 +3,6 @@ import { AgGridReact } from "ag-grid-react";
 import type {
   CellValueChangedEvent,
   ColDef,
-  GridReadyEvent,
   RangeSelectionChangedEvent,
 } from "ag-grid-community";
 import { flattenRow, YEARS } from "../utils/utils";
@@ -193,8 +192,8 @@ export default function UsersGrid({ originalData }: Props) {
     alert(`Compare done. ${changed.length} rows changed. Check console for details.`);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const onGridReady = (params: GridReadyEvent) => {
+
+  const onGridReady = () => {
     // can be used for api calls
   };
 
