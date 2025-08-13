@@ -34,7 +34,7 @@ src/
 ## 🛠️ Installation & Setup
 
 ### 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+git clone https://github.com/hamzagandhi/ag-grid-app.git
 cd YOUR_REPO_NAME
 
 ### 2. Install dependencies
