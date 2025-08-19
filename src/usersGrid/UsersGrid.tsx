@@ -8,11 +8,12 @@ import type {
 import { flattenRow, YEARS } from "../utils/utils";
 import type { Entry, FlattenedRow } from "../utils/types";
 import { CellSelectionModule } from 'ag-grid-enterprise';
+import { ClipboardModule } from "ag-grid-enterprise"; 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { ModuleRegistry, AllCommunityModule, ClientSideRowModelModule } from "ag-grid-community";
 ModuleRegistry.registerModules([AllCommunityModule]);
-ModuleRegistry.registerModules([ClientSideRowModelModule, CellSelectionModule]);
+ModuleRegistry.registerModules([ClientSideRowModelModule, ClipboardModule, CellSelectionModule]);
 interface Props {
   originalData: Entry[];
 }
@@ -104,13 +105,13 @@ export default function UsersGrid({ originalData }: Props) {
   );
 
   const onCellValueChanged = (params: CellValueChangedEvent<FlattenedRow>) => {
-    if (params.data && typeof params.data.__rowIndex === "number") {
-      const updated = rowData.map((r) =>
-        r.__rowIndex === params.data.__rowIndex ? params.data : r
-      );
-      setRowData(updated);
-    }
-  };
+  if (params.data) {
+    params.api.applyTransaction({
+      update: [params.data],  // only updating the changed row
+    });
+  }
+};
+
 
   const onRangeSelectionChanged = (event: RangeSelectionChangedEvent) => {
     const api = event.api;
@@ -192,6 +193,10 @@ export default function UsersGrid({ originalData }: Props) {
     alert(`Compare done. ${changed.length} rows changed. Check console for details.`);
   };
 
+  const getRowId = (params: { data: FlattenedRow }) => {
+  return params.data.__rowIndex.toString();
+};
+
 
   const onGridReady = () => {
     // can be used for api calls
@@ -235,6 +240,11 @@ export default function UsersGrid({ originalData }: Props) {
             undoRedoCellEditing={true}
             undoRedoCellEditingLimit={100}
             rowSelection="multiple"
+            getRowId={getRowId}
+            enableRangeSelection={true}          
+            suppressCopyRowsToClipboard={false}  // allow copying multiple rows
+            copyHeadersToClipboard={true}        // include headers when copying
+            suppressClipboardPaste={false}       // allow pasting
             suppressMultiRangeSelection={false}
             onRangeSelectionChanged={onRangeSelectionChanged}
             onCellValueChanged={onCellValueChanged}
